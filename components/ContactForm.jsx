@@ -7,13 +7,11 @@ export default function ContactForm() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState([]);
+    const [success, setSuccess] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        console.log('fullname', fullname);
-        console.log('email', email);
-        console.log('message', message);
 
         const res = await fetch ("api/contact", {
             method: 'POST',
@@ -27,10 +25,16 @@ export default function ContactForm() {
             }),
         });
         
-        const {msg} = await res.json();
+        const {msg, success } = await res.json();
         setError(msg);
-        console.log(error);
+        setSuccess(success);
 
+        if(success){
+            setFullname("");
+            setEmail("");
+            setMessage("");
+        }
+        
     };
 
     return (
@@ -63,7 +67,7 @@ export default function ContactForm() {
 
         <div className='bg-slate-100 flex flex-col'>
             {error && error.map((e)=>(
-                <div key={e} className='text-red-600 px-5 py-2'>{e}</div>
+                <div key={e} className={`${success ? "text-green-800" : "text-red-600"}  px-5 py-2`}>{e}</div>
             ))}
         </div>
         </>
