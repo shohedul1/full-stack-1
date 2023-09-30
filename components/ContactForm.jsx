@@ -63,7 +63,7 @@ export default function ContactForm() {
 
         <div className='bg-slate-100 flex flex-col'>
             {error && error.map((e)=>(
-                <div className='text-red-600 px-5 py-2'>{e}</div>
+                <div key={e} className='text-red-600 px-5 py-2'>{e}</div>
             ))}
         </div>
         </>
